@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: cardano-websocket-server
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: node websocket-server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: WEBSOCKET_PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+    healthCheckPath: /ping
+    autoDeploy: true
+    numInstances: 1
+    scaling:
+      minInstances: 1
+      maxInstances: 3
+      targetMemoryUtilizationPercent: 70
+      targetCPUUtilizationPercent: 70
