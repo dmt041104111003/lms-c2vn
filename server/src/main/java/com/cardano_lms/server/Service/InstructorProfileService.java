@@ -34,8 +34,6 @@ public class InstructorProfileService {
     public InstructorProfileResponse getProfileByUserId(String userId) {
         InstructorProfile profile = instructorRepository.findByUserId(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-
-        // query social links vì entity không giữ
         List<SocialLink> links = socialLinkRepository.findByInstructorId(profile.getId());
 
         InstructorProfileResponse response = instructorProfileMapper.toResponse(profile);
@@ -50,19 +48,15 @@ public class InstructorProfileService {
     @Transactional
     @PreAuthorize("hasRole('INSTRUCTOR')")
     public InstructorProfileResponse updateProfile(Long instructorId, InstructorProfileUpdateRequest request) {
-        // 1. Lấy profile
         InstructorProfile profile = instructorRepository.findById(instructorId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        // 2. Update các field cơ bản (bio, expertise)
         instructorProfileMapper.updateProfileFromRequest(request, profile);
 
-        // 3. Đồng bộ social links
         if (request.getSocialLinks() != null) {
             syncSocialLinks(profile, request.getSocialLinks());
         }
 
-        // 4. Trả về response
         List<SocialLink> links = socialLinkRepository.findByInstructorId(instructorId);
         return InstructorProfileResponse.builder()
                 .id(profile.getId())
@@ -79,7 +73,6 @@ public class InstructorProfileService {
     private void syncSocialLinks(InstructorProfile profile, List<SocialLinkRequest> requests) {
         List<SocialLink> existingLinks = socialLinkRepository.findByInstructorId(profile.getId());
 
-        // map theo name để dễ lookup
         Map<String, SocialLink> existingMap = existingLinks.stream()
                 .collect(Collectors.toMap(SocialLink::getName, Function.identity()));
 
@@ -87,12 +80,10 @@ public class InstructorProfileService {
                 .map(SocialLinkRequest::getName)
                 .collect(Collectors.toSet());
 
-        // 1. Xoá những link không còn trong request
         existingLinks.stream()
                 .filter(link -> !requestedNames.contains(link.getName()))
                 .forEach(socialLinkRepository::delete);
 
-        // 2. Thêm hoặc update link mới
         for (SocialLinkRequest req : requests) {
             SocialLink existing = existingMap.get(req.getName());
             if (existing != null) {
@@ -100,7 +91,6 @@ public class InstructorProfileService {
                 existing.setUrl(req.getUrl());
                 socialLinkRepository.save(existing);
             } else {
-                // thêm mới
                 SocialLink newLink = SocialLink.builder()
                         .name(req.getName())
                         .url(req.getUrl())
