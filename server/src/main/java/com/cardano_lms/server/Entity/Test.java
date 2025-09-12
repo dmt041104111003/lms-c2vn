@@ -17,10 +17,11 @@ public class Test {
     private int durationMinutes;
     private String rule;
     private int passScore;
+    private int orderIndex;
 
-    @ManyToOne @JoinColumn(name = "course_id", nullable = false)
+    @ManyToOne @JoinColumn(name = "course_id", nullable = true)
     private Course course;
 
-    @ManyToOne @JoinColumn(name = "chapter_id", nullable = false)
+    @ManyToOne @JoinColumn(name = "chapter_id", nullable = true)
     private Chapter chapter;
 }
