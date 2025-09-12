@@ -17,7 +17,7 @@ public class Lecture {
     private String title;
     private String videoUrl;
     private int time;
-    private int index;
+    private int orderIndex;
     private String resourceUrl;
     private String resourceType;
 

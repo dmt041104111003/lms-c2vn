@@ -15,7 +15,7 @@ public class Chapter {
     private Long id;
 
     private String title;
-    private int index;
+    private int orderIndex;
 
     @ManyToOne @JoinColumn(name = "course_id")
     private Course course;

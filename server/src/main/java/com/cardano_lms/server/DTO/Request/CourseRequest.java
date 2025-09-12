@@ -1,22 +1,20 @@
-package com.cardano_lms.server.Entity;
+package com.cardano_lms.server.DTO.Request;
 
+import com.cardano_lms.server.Entity.InstructorProfile;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Entity
-@Table(name = "courses")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Course {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
-
+@Builder
+public class CourseRequest {
     private String title;
     private String description;
     private String shortDescription;
@@ -25,11 +23,11 @@ public class Course {
     private Double discount;
     private LocalDateTime discountEndTime;
     private String policyId;
+    private Long instructorId;
 
-    @ManyToOne
-    @JoinColumn(name = "instructor_id")
-    private InstructorProfile instructor;
+    private List<CourseDetailRequest> details;
+    private List<ChapterRequest> chapters;
+    private List<Long> paymentMethodIds;
+    private List<TestRequest> courseTests;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }

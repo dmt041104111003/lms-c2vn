@@ -16,6 +16,7 @@ public class Question {
 
     private String content;
     private String imageUrl;
+    private int orderIndex;
     private int score;
 
     @ManyToOne @JoinColumn(name = "test_id")
