@@ -1,4 +1,4 @@
-package com.cardano_lms.server.DTO.Request;
+package com.cardano_lms.server.DTO.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CourseDetailRequest {
-    private String type;
+public class AnswerResponse {
+    private Long id;
     private String content;
+    private boolean isCorrect;
 }

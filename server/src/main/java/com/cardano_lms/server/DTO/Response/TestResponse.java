@@ -11,11 +11,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InstructorProfileResponse {
+public class TestResponse {
     private Long id;
-    private String bio;
-    private String expertise;
-    private String name;
-    private String userId;
-    private List<SocialLinkResponse> socialLinks;
+    private String title;
+    private int durationMinutes;
+    private String rule;
+    private int passScore;
+    private int orderIndex;
+
+    private List<QuestionResponse> questions;
 }

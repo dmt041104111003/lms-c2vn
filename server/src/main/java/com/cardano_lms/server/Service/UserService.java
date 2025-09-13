@@ -14,6 +14,7 @@ import com.cardano_lms.server.Mapper.UserMapper;
 import com.cardano_lms.server.Repository.InstructorProfileRepository;
 import com.cardano_lms.server.Repository.RoleRepository;
 import com.cardano_lms.server.Repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -52,7 +53,6 @@ public class UserService {
                 !loginMethod.equals(PredefineLoginMethod.GOOGLE_METHOD)) {
             throw new AppException(ErrorCode.LOGIN_METHOD_IS_REQUIRED);
         }
-
         User user = userMapper.toUser(request);
 
         switch (loginMethod) {
@@ -105,6 +105,7 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
+    @Transactional
     @PostAuthorize("returnObject.id == authentication.name")
     public UserResponse updateUser(String userId, UserUpdateRequest request) {
         User user = userRepository.findById(userId)
@@ -133,10 +134,18 @@ public class UserService {
 
         if (request.getEmail() != null && !request.getEmail().isBlank()) {
             Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
-            if (existingUser.isPresent()) {
+            if (existingUser.isPresent()  && !existingUser.get().getId().equals(userId)) {
               throw  new AppException(ErrorCode.EMAIL_ALREADY_USED);
             }
             user.setEmail(request.getEmail());
+        }
+
+        if (request.getWalletAddress() != null && !request.getWalletAddress().isBlank()) {
+            Optional<User> existingUser = userRepository.findByWalletAddress(request.getWalletAddress());
+            if (existingUser.isPresent()  && !existingUser.get().getId().equals(userId)) {
+                throw  new AppException(ErrorCode.WALLET_ALREADY_USED);
+            }
+            user.setWalletAddress(request.getEmail());
         }
 
         if (request.getWalletAddress() != null && !request.getWalletAddress().isBlank()) {

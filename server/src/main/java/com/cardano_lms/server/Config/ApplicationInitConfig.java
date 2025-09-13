@@ -2,14 +2,13 @@ package com.cardano_lms.server.Config;
 
 
 import com.cardano_lms.server.Constant.PredefineLoginMethod;
+import com.cardano_lms.server.Constant.PredefinedPaymentMethod;
 import com.cardano_lms.server.Constant.PredefinedRole;
 import com.cardano_lms.server.Entity.LoginMethod;
+import com.cardano_lms.server.Entity.PaymentMethod;
 import com.cardano_lms.server.Entity.Role;
 import com.cardano_lms.server.Entity.User;
-import com.cardano_lms.server.Repository.LoginMethodRepository;
-import com.cardano_lms.server.Repository.RoleRepository;
-import com.cardano_lms.server.Repository.SocialLinkRepository;
-import com.cardano_lms.server.Repository.UserRepository;
+import com.cardano_lms.server.Repository.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -38,7 +37,7 @@ public class ApplicationInitConfig {
     ApplicationRunner applicationRunner(UserRepository userRepository,
                                         RoleRepository roleRepository,
                                         LoginMethodRepository loginMethodRepository,
-                                        SocialLinkRepository socialLinkRepository) {
+                                        PaymentMethodRepository paymentMethodRepository) {
         log.info("Initializing application.....");
         return args -> {
             if (userRepository.findByUsername(ADMIN_USER_NAME).isEmpty()) {
@@ -91,6 +90,36 @@ public class ApplicationInitConfig {
                         LoginMethod.builder()
                                 .name(PredefineLoginMethod.WALLET_METHOD)
                                 .description("Login with blockchain wallet")
+                                .build()
+                );
+            }
+
+            if(!paymentMethodRepository.existsByName(PredefinedPaymentMethod.CARDANO_WALLET)){
+                paymentMethodRepository.save(
+                        PaymentMethod.builder()
+                                .name(PredefinedPaymentMethod.CARDANO_WALLET)
+                                .description("Payment with cardano wallet")
+                                .currency("ADA")
+                                .build()
+                );
+            }
+
+            if(!paymentMethodRepository.existsByName(PredefinedPaymentMethod.STRIPE)){
+                paymentMethodRepository.save(
+                        PaymentMethod.builder()
+                                .name(PredefinedPaymentMethod.STRIPE)
+                                .description("Payment with stripe")
+                                .currency("USD")
+                                .build()
+                );
+            }
+
+            if(!paymentMethodRepository.existsByName(PredefinedPaymentMethod.PAYPAL)){
+                paymentMethodRepository.save(
+                        PaymentMethod.builder()
+                                .name(PredefinedPaymentMethod.PAYPAL)
+                                .description("Payment with paypal")
+                                .currency("USD")
                                 .build()
                 );
             }

@@ -1,14 +1,13 @@
 package com.cardano_lms.server.DTO.Request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Setter
+@Getter
 public class AnswerRequest {
     private String content;
     private boolean isCorrect;

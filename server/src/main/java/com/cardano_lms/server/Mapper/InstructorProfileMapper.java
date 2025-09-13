@@ -11,15 +11,9 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring")
 public interface InstructorProfileMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "name", source = "name")
     void updateProfileFromRequest(InstructorProfileUpdateRequest request,
                                   @MappingTarget InstructorProfile profile);
-
-    SocialLink toSocialLink(SocialLinkRequest request);
-
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateSocialLinkFromRequest(SocialLinkRequest request,
-                                     @MappingTarget SocialLink socialLink);
-
     @Mapping(source = "user.id", target = "userId")
     InstructorProfileResponse toResponse(InstructorProfile profile);
 

@@ -1,14 +1,11 @@
 package com.cardano_lms.server.Entity;
-import jakarta.persistence.Entity;
+
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import java.time.LocalDate;
+import lombok.*;
 
 @Entity
 @Table(name = "course_payment_methods")
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class CoursePaymentMethod {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

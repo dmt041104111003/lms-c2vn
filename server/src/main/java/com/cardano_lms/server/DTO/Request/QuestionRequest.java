@@ -15,5 +15,6 @@ public class QuestionRequest {
     private String content;
     private Integer score;
     private String imageUrl;
+    private int orderIndex;
     private List<AnswerRequest> answers;
 }

@@ -29,7 +29,11 @@ public enum ErrorCode {
     NOT_FOUND(1020, "Not found", HttpStatus.NOT_FOUND),
     INVALID_ARGUMENT(1021, "Invalid argument", HttpStatus.BAD_REQUEST),
     EMAIL_ALREADY_USED(1022, "Email has been used by another people", HttpStatus.BAD_REQUEST),
-    WALLET_ALREADY_USED(1022, "Wallet has been used by another people", HttpStatus.BAD_REQUEST),
+    WALLET_ALREADY_USED(1023, "Wallet has been used by another people", HttpStatus.BAD_REQUEST),
+    YOU_ARE_NOT_INSTRUCTOR(1024, "You are not educator", HttpStatus.NOT_FOUND),
+    PAYMENT_METHOD_NOT_FOUND(1025, "Payment method not found", HttpStatus.NOT_FOUND),
+    COURSE_NOT_FOUND(1026, "Course not found", HttpStatus.NOT_FOUND),
+    PROFILE_NOT_EXISTED(1027, "Profile not found", HttpStatus.NOT_FOUND),
             ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

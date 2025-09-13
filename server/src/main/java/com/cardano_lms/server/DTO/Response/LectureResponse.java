@@ -1,4 +1,4 @@
-package com.cardano_lms.server.DTO.Request;
+package com.cardano_lms.server.DTO.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LectureRequest {
+public class LectureResponse {
+    private Long id;
     private String title;
     private String videoUrl;
-    private Integer duration;
-    private Integer orderIndex;
+    private int time;
+    private int orderIndex;
     private String resourceUrl;
     private String resourceType;
     private Boolean previewFree;

@@ -16,11 +16,24 @@ public class InstructorProfileController {
 
     private final InstructorProfileService profileService;
 
-    @GetMapping("/{userId}")
+    @GetMapping("/userId={userId}")
     public ApiResponse<InstructorProfileResponse> getDetailInstructorProfiles(
             @PathVariable String userId
     ) {
         InstructorProfileResponse response = profileService.getProfileByUserId(userId);
+        return
+                ApiResponse.<InstructorProfileResponse>builder()
+                        .message("Profile detail")
+                        .result(response)
+                        .build();
+    }
+
+
+    @GetMapping("/id={id}")
+    public ApiResponse<InstructorProfileResponse> getProfileById(
+            @PathVariable Long id
+    ) {
+        InstructorProfileResponse response = profileService.getProfileById(id);
         return
                 ApiResponse.<InstructorProfileResponse>builder()
                         .message("Profile detail")
