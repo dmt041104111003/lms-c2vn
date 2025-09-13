@@ -1,9 +1,7 @@
 package com.cardano_lms.server.Service;
 
 import com.cardano_lms.server.DTO.Request.*;
-import com.cardano_lms.server.DTO.Response.ChapterResponse;
-import com.cardano_lms.server.DTO.Response.CourseCreationResponse;
-import com.cardano_lms.server.DTO.Response.CourseUpdateResponse;
+import com.cardano_lms.server.DTO.Response.*;
 import com.cardano_lms.server.Entity.*;
 import com.cardano_lms.server.Exception.AppException;
 import com.cardano_lms.server.Exception.ErrorCode;
@@ -30,6 +28,8 @@ public class CourseService {
     InstructorProfileRepository instructorProfileRepository;
     PaymentMethodRepository paymentMethodRepository;
     ChapterRepository chapterRepository;
+    LectureRepository lectureRepository;
+    TestRepository testRepository;
     CourseMapper courseMapper;
     TestMapper testMapper;
     ChapterMapper chapterMapper;
@@ -122,6 +122,7 @@ public class CourseService {
 
     }
 
+
     public List<CourseCreationResponse> getCourses() {
         return courseRepository.findAll().stream()
                 .map(courseMapper::toResponse)
@@ -157,15 +158,16 @@ public class CourseService {
         courseRepository.deleteById(id);
     }
 
+
+    @PreAuthorize("hasRole('INSTRUCTOR')")
     @Transactional
-    public ChapterResponse addChapter(String courseId, ChapterRequest request) {
+    public ChapterResponse addChapterToCourse(String courseId, ChapterRequest request) {
 
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new AppException(ErrorCode.COURSE_NOT_FOUND));
         Chapter newChapter = chapterMapper.toEntity(request);
         newChapter.setCourse(course);
         chapterRepository.save(newChapter);
-        log.info("Chapter added successfully, ID: {}", newChapter.getId());
 
         Optional.ofNullable(request.getLectures())
                 .ifPresent(list -> list.forEach(lecReq -> {
@@ -183,6 +185,36 @@ public class CourseService {
 
         return chapterMapper.toResponse(newChapter);
     }
+
+    @PreAuthorize("hasRole('INSTRUCTOR')")
+    @Transactional
+    public LectureResponse addLectureToChapter(Long chapterId, LectureRequest request) {
+        Chapter chapter = chapterRepository.findById(chapterId)
+                .orElseThrow(() -> new AppException(ErrorCode.CHAPTER_NOT_FOUND));
+
+        Lecture newLecture = lectureMapper.toEntity(request);
+        newLecture.setChapter(chapter);
+
+        lectureRepository.save(newLecture);
+
+        chapter.addLecture(newLecture);
+        if (chapter.getCourse() != null) {
+            chapter.getCourse().setUpdatedAt(LocalDateTime.now());
+            courseRepository.save(chapter.getCourse());
+        }
+
+        return lectureMapper.toResponse(newLecture);
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 
