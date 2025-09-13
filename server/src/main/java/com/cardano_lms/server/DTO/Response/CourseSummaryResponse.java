@@ -1,7 +1,5 @@
-package com.cardano_lms.server.DTO.Request;
+package com.cardano_lms.server.DTO.Response;
 
-import com.cardano_lms.server.Entity.InstructorProfile;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,20 +12,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CourseRequest {
+public class CourseSummaryResponse {
+    private String id;
     private String title;
     private String description;
     private String shortDescription;
+    private String requirement;
     private String imageUrl;
     private boolean isDraft;
     private Double discount;
     private LocalDateTime discountEndTime;
     private String policyId;
-    private Long instructorId;
-
-    private List<CourseDetailRequest> details;
-    private List<ChapterRequest> chapters;
-    private List<Long> paymentMethodIds;
-    private List<TestRequest> courseTests;
-
+    private String instructorName;
 }

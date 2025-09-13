@@ -12,6 +12,7 @@ import java.util.List;
 public class InstructorProfileUpdateRequest {
     String bio;
     String expertise;
+    String name;
     List<SocialLinkRequest> socialLinks;
 
 }

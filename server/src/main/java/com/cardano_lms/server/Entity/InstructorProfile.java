@@ -21,9 +21,11 @@ public class InstructorProfile {
     @OneToOne @JoinColumn(name = "user_id")
     private User user;
 
+    private String name;
     private String bio;
     private String expertise;
 
-
+    @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Course> courses = new ArrayList<>();
 
 }

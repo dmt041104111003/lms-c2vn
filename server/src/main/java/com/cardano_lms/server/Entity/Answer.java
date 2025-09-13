@@ -1,14 +1,12 @@
 package com.cardano_lms.server.Entity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "answers")
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class Answer {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,5 +15,6 @@ public class Answer {
     private boolean isCorrect;
 
     @ManyToOne @JoinColumn(name = "question_id")
+    @JsonIgnore
     private Question question;
 }
