@@ -1,10 +1,7 @@
 package com.cardano_lms.server.Controller;
 
 import com.cardano_lms.server.DTO.Request.*;
-import com.cardano_lms.server.DTO.Response.ChapterResponse;
-import com.cardano_lms.server.DTO.Response.CourseCreationResponse;
-import com.cardano_lms.server.DTO.Response.CourseUpdateResponse;
-import com.cardano_lms.server.DTO.Response.LectureResponse;
+import com.cardano_lms.server.DTO.Response.*;
 import com.cardano_lms.server.Service.CourseService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import shaded.org.bouncycastle.util.test.Test;
 
 import java.util.List;
 
@@ -87,6 +85,29 @@ public class CourseController {
         return ApiResponse.<LectureResponse>builder()
                 .message("Lecture created successfully")
                 .result(lectureResponse)
+                .build();
+    }
+
+    @PostMapping("/chapterId={chapterId}/tests")
+    public ApiResponse<TestResponse> addLectureToChapter(
+            @PathVariable Long chapterId,
+            @RequestBody TestRequest request) {
+
+        TestResponse testResponse= courseService.addTest(request, chapterId,null);
+        return ApiResponse.<TestResponse>builder()
+                .message("Lecture created successfully")
+                .result(testResponse)
+                .build();
+    }
+    @PostMapping("/courseId={courseId}/tests")
+    public ApiResponse<TestResponse> addLectureToChapter(
+            @PathVariable String courseId,
+            @RequestBody TestRequest request) {
+
+        TestResponse testResponse = courseService.addTest(request, null,courseId);
+        return ApiResponse.<TestResponse>builder()
+                .message("Test created successfully")
+                .result(testResponse)
                 .build();
     }
 

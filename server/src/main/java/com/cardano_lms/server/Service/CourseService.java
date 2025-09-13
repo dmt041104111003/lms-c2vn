@@ -94,7 +94,7 @@ public class CourseService {
     }
 
 
-    private void buildTestWithQuestions(TestRequest testReq,
+    private Test buildTestWithQuestions(TestRequest testReq,
                                         Course course,
                                         Chapter chapter) {
         Test test = testMapper.toEntity(testReq);
@@ -120,6 +120,7 @@ public class CourseService {
             });
         }
 
+        return test;
     }
 
 
@@ -167,7 +168,7 @@ public class CourseService {
                 .orElseThrow(() -> new AppException(ErrorCode.COURSE_NOT_FOUND));
         Chapter newChapter = chapterMapper.toEntity(request);
         newChapter.setCourse(course);
-        chapterRepository.save(newChapter);
+        Chapter savedChapter = chapterRepository.save(newChapter);
 
         Optional.ofNullable(request.getLectures())
                 .ifPresent(list -> list.forEach(lecReq -> {
@@ -183,7 +184,7 @@ public class CourseService {
         course.setUpdatedAt(LocalDateTime.now());
         courseRepository.save(course);
 
-        return chapterMapper.toResponse(newChapter);
+        return chapterMapper.toResponse(savedChapter);
     }
 
     @PreAuthorize("hasRole('INSTRUCTOR')")
@@ -195,7 +196,7 @@ public class CourseService {
         Lecture newLecture = lectureMapper.toEntity(request);
         newLecture.setChapter(chapter);
 
-        lectureRepository.save(newLecture);
+        Lecture savedLecture = lectureRepository.save(newLecture);
 
         chapter.addLecture(newLecture);
         if (chapter.getCourse() != null) {
@@ -203,8 +204,36 @@ public class CourseService {
             courseRepository.save(chapter.getCourse());
         }
 
-        return lectureMapper.toResponse(newLecture);
+        return lectureMapper.toResponse(savedLecture);
     }
+
+    @PreAuthorize("hasRole('INSTRUCTOR')")
+    @Transactional
+    public TestResponse addTest(TestRequest request, Long chapterId, String courseId) {
+
+        if (chapterId == null && courseId == null) {
+            throw new AppException(ErrorCode.INVALID_INPUT);
+        }
+        Test newTest = null;
+        Course course = null;
+        if (chapterId != null) {
+            Chapter chapter = chapterRepository.findById(chapterId)
+                    .orElseThrow(() -> new AppException(ErrorCode.CHAPTER_NOT_FOUND));
+            newTest = buildTestWithQuestions(request, null, chapter);
+        }
+        if (courseId != null && chapterId == null) {
+            course = courseRepository.findById(courseId)
+                    .orElseThrow(() -> new AppException(ErrorCode.COURSE_NOT_FOUND));
+            newTest = buildTestWithQuestions(request, course, null);
+        }
+        Test saved = testRepository.save(newTest);
+        if (course != null) {
+            course.setUpdatedAt(LocalDateTime.now());
+            courseRepository.save(course);
+        }
+        return testMapper.toResponse(saved);
+    }
+
 
 
 
