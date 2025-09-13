@@ -1,12 +1,10 @@
 package com.cardano_lms.server.Controller;
 
-import com.cardano_lms.server.DTO.Request.ApiResponse;
-import com.cardano_lms.server.DTO.Request.ChapterRequest;
-import com.cardano_lms.server.DTO.Request.CourseCreationRequest;
-import com.cardano_lms.server.DTO.Request.CourseUpdateRequest;
+import com.cardano_lms.server.DTO.Request.*;
 import com.cardano_lms.server.DTO.Response.ChapterResponse;
 import com.cardano_lms.server.DTO.Response.CourseCreationResponse;
 import com.cardano_lms.server.DTO.Response.CourseUpdateResponse;
+import com.cardano_lms.server.DTO.Response.LectureResponse;
 import com.cardano_lms.server.Service.CourseService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -73,12 +71,25 @@ public class CourseController {
             @PathVariable String courseId,
             @RequestBody ChapterRequest request) {
 
-        ChapterResponse chapterResponse= courseService.addChapter(courseId, request);
+        ChapterResponse chapterResponse= courseService.addChapterToCourse(courseId, request);
         return ApiResponse.<ChapterResponse>builder()
                 .message("Chapter created successfully")
                 .result(chapterResponse)
                 .build();
     }
+
+    @PostMapping("/chapterId={chapterId}/lectures")
+    public ApiResponse<LectureResponse> addLectureToChapter(
+            @PathVariable Long chapterId,
+            @RequestBody LectureRequest request) {
+
+        LectureResponse lectureResponse= courseService.addLectureToChapter(chapterId, request);
+        return ApiResponse.<LectureResponse>builder()
+                .message("Lecture created successfully")
+                .result(lectureResponse)
+                .build();
+    }
+
 
 }
 

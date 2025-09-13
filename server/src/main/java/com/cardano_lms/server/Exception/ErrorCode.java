@@ -34,6 +34,8 @@ public enum ErrorCode {
     PAYMENT_METHOD_NOT_FOUND(1025, "Payment method not found", HttpStatus.NOT_FOUND),
     COURSE_NOT_FOUND(1026, "Course not found", HttpStatus.NOT_FOUND),
     PROFILE_NOT_EXISTED(1027, "Profile not found", HttpStatus.NOT_FOUND),
+    CHAPTER_NOT_FOUND(1028, "Chapter not found", HttpStatus.NOT_FOUND),
+    INVALID_INPUT(1029, "Invalid input", HttpStatus.BAD_REQUEST)
             ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
