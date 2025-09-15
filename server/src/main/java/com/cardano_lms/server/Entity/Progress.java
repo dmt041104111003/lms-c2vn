@@ -22,12 +22,6 @@ public class Progress {
     private int score;
     private LocalDate completedAt;
 
-    @ManyToOne @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne @JoinColumn(name = "course_id")
-    private Course course;
-
     @ManyToOne @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 

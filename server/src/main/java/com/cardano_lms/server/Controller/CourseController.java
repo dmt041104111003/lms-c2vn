@@ -100,7 +100,7 @@ public class CourseController {
                 .build();
     }
     @PostMapping("/courseId={courseId}/tests")
-    public ApiResponse<TestResponse> addLectureToChapter(
+    public ApiResponse<TestResponse> addLectureToCourse(
             @PathVariable String courseId,
             @RequestBody TestRequest request) {
 

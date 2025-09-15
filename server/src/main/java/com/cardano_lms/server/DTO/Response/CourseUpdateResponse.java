@@ -21,6 +21,7 @@ public class CourseUpdateResponse {
     private String imageUrl;
     private boolean draft;
     private Integer price;
+    private String currency;
     private Double discount;
     private LocalDateTime discountEndTime;
     private String policyId;

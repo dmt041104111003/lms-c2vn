@@ -1,5 +1,7 @@
 package com.cardano_lms.server.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,6 +28,8 @@ public class InstructorProfile {
     private String expertise;
 
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @JsonBackReference
     private List<Course> courses = new ArrayList<>();
 
 }

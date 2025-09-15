@@ -35,7 +35,10 @@ public enum ErrorCode {
     COURSE_NOT_FOUND(1026, "Course not found", HttpStatus.NOT_FOUND),
     PROFILE_NOT_EXISTED(1027, "Profile not found", HttpStatus.NOT_FOUND),
     CHAPTER_NOT_FOUND(1028, "Chapter not found", HttpStatus.NOT_FOUND),
-    INVALID_INPUT(1029, "Invalid input", HttpStatus.BAD_REQUEST)
+    INVALID_INPUT(1029, "Invalid input", HttpStatus.BAD_REQUEST),
+    ALREADY_JOIN_THIS_COURSE(1030, "You has been join this course ", HttpStatus.BAD_REQUEST),
+    NOT_HAVE_METHOD(1031, "This course not have this method", HttpStatus.BAD_REQUEST),
+    CARDANO_TRANSACTION_NOT_VALID(1032, "Payment not verified on Cardano blockchain!", HttpStatus.BAD_REQUEST),
             ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

@@ -1,7 +1,11 @@
 package com.cardano_lms.server.Entity;
 
+import com.cardano_lms.server.Constant.Currency;
+import com.cardano_lms.server.Constant.PredefinedCurrency;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import shaded.org.checkerframework.common.value.qual.StringVal;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,12 +26,17 @@ public class Course {
     private String imageUrl;
     private boolean isDraft;
     private Integer price;
+
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
+
     private Double discount;
     private LocalDateTime discountEndTime;
     private String policyId;
 
     @ManyToOne
     @JoinColumn(name = "instructor_id", nullable = false)
+    @JsonManagedReference
     private InstructorProfile instructor;
 
     private LocalDateTime createdAt;
