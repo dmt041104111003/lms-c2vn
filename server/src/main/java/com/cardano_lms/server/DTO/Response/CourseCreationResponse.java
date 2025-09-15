@@ -19,6 +19,7 @@ public class CourseCreationResponse {
     private String imageUrl;
     private boolean isDraft;
     private Integer price;
+    private String currency;
     private Double discount;
     private LocalDateTime discountEndTime;
     private String policyId;
@@ -28,6 +29,7 @@ public class CourseCreationResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    private List<CoursePaymentMethodResponse> coursePaymentMethods;
     private List<ChapterResponse> chapters;
     private List<TestResponse> courseTests;
 }

@@ -18,6 +18,7 @@ public interface CourseMapper {
     @Mapping(target = "coursePaymentMethods", ignore = true)
     @Mapping(target = "instructor", ignore = true)
     @Mapping(target = "price", source = "price")
+    @Mapping(target = "currency", source = "currency")
     Course toCourse(CourseCreationRequest request);
 
     @Mapping(source = "instructor", target = "instructorProfileResponse")
@@ -32,6 +33,7 @@ public interface CourseMapper {
     @Mapping(target = "chapters", ignore = true)
     @Mapping(target = "price", source = "price")
     @Mapping(target = "draft", source = "draft")
+    @Mapping(target = "currency", source = "currency")
     void updateCourseFromRequest(CourseUpdateRequest request, @MappingTarget Course course);
 
     CourseUpdateResponse toCourseUpdateResponse(Course course);

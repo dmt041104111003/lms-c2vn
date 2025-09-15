@@ -1,5 +1,6 @@
 package com.cardano_lms.server.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,8 +12,13 @@ public class CoursePaymentMethod {
     private Long id;
 
     @ManyToOne @JoinColumn(name = "course_id")
+    @JsonManagedReference
     private Course course;
 
     @ManyToOne @JoinColumn(name = "payment_method_id")
+    @JsonManagedReference
     private PaymentMethod paymentMethod;
+
+    @Column(nullable = false)
+    private String receiverAddress;
 }

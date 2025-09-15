@@ -21,6 +21,7 @@ public class CourseSummaryResponse {
     private String imageUrl;
     private boolean isDraft;
     private Double discount;
+    private String currency;
     private LocalDateTime discountEndTime;
     private String policyId;
     private String instructorName;

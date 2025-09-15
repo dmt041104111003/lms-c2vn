@@ -21,13 +21,14 @@ public class CourseCreationRequest {
     private boolean isDraft;
     private Double discount;
     private Integer price;
+    private String currency;
     private LocalDateTime discountEndTime;
     private String policyId;
     private Long instructorId;
 
 
     private List<ChapterRequest> chapters;
-    private List<String> paymentMethodIds;
+    private List<PaymentOptionRequest> paymentMethods;
     private List<TestRequest> courseTests;
 
 }

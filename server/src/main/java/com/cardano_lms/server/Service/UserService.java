@@ -106,7 +106,7 @@ public class UserService {
     }
 
     @Transactional
-    @PostAuthorize("returnObject.id == authentication.name")
+    @PreAuthorize("hasRole('ADMIN')")
     public UserResponse updateUser(String userId, UserUpdateRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));

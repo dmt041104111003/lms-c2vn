@@ -19,6 +19,7 @@ public class CourseUpdateRequest {
     private String imageUrl;
     private boolean draft;
     private Integer price;
+    private String currency;
     private Double discount;
     private LocalDateTime discountEndTime;
 

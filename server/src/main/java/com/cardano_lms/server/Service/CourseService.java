@@ -49,18 +49,19 @@ public class CourseService {
         course.setUpdatedAt(LocalDateTime.now());
 
 
-        if (courseCreationRequest.getPaymentMethodIds() != null && !courseCreationRequest.getPaymentMethodIds().isEmpty()) {
-            List<PaymentMethod> methods = paymentMethodRepository.findAllByNameIn(courseCreationRequest.getPaymentMethodIds());
-            if (methods.size() != courseCreationRequest.getPaymentMethodIds().size()) {
-                throw new AppException(ErrorCode.PAYMENT_METHOD_NOT_FOUND);
-            }
-            methods.forEach(method -> {
+        if (courseCreationRequest.getPaymentMethods() != null && !courseCreationRequest.getPaymentMethods().isEmpty()) {
+            for (PaymentOptionRequest option : courseCreationRequest.getPaymentMethods()) {
+                PaymentMethod method = paymentMethodRepository.findByName(option.getPaymentMethodId())
+                        .orElseThrow(() -> new AppException(ErrorCode.PAYMENT_METHOD_NOT_FOUND));
+
                 CoursePaymentMethod cpm = CoursePaymentMethod.builder()
                         .course(course)
                         .paymentMethod(method)
+                        .receiverAddress(option.getReceiverAddress())
                         .build();
+
                 course.getCoursePaymentMethods().add(cpm);
-            });
+            }
         }
 
         if (courseCreationRequest.getCourseTests() != null) {

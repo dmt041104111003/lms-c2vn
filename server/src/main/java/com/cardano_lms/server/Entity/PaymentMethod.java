@@ -1,5 +1,7 @@
 package com.cardano_lms.server.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,5 +19,7 @@ public class PaymentMethod {
     private String currency;
 
     @OneToMany(mappedBy = "paymentMethod", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @JsonBackReference
     private List<CoursePaymentMethod> coursePaymentMethods = new ArrayList<>();
 }
